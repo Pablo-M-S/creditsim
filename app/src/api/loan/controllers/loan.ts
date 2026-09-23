@@ -42,8 +42,10 @@ export default factories.createCoreController('api::loan.loan', ({ strapi }) => 
       loanStatus: 'simulated',
     };
 
-    if (customerId) {
-      loanData.customer = customerId;
+    const effectiveCustomerId = ctx.state.customerId || customerId;
+
+    if (effectiveCustomerId) {
+      loanData.customer = effectiveCustomerId;
     }
 
     const loan = await strapi.documents('api::loan.loan').create({
@@ -79,6 +81,15 @@ export default factories.createCoreController('api::loan.loan', ({ strapi }) => 
         installments,
       },
     };
+  },
+  async find(ctx) {
+    if (ctx.state.customerId) {
+      const loans = await strapi.documents('api::loan.loan').findMany({
+        filters: { customer: ctx.state.customerId },
+      });
+      return { data: loans };
+    }
+    return await super.find(ctx);
   },
 
 }));

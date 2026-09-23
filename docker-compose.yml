@@ -1,0 +1,35 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: creditsim
+      POSTGRES_USER: creditsim
+      POSTGRES_PASSWORD: creditsim_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  strapi:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: creditsim
+      DATABASE_USERNAME: creditsim
+      DATABASE_PASSWORD: creditsim_pass
+    volumes:
+      - ./app:/opt/app
+      - /opt/app/node_modules
+    ports:
+      - "7870:7870"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

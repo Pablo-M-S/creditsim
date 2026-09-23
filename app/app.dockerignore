@@ -1,0 +1,13 @@
+node_modules
+dist
+build
+.tmp
+.cache
+.strapi
+.env
+.env.*
+!.env.example
+*.log
+Dockerfile
+tests
+jest.config.js

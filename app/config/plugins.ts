@@ -29,6 +29,11 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
       jwtManagement: 'refresh',
       sessions: {
         httpOnly: true,
+        cookie: {
+          // Em producao o Strapi forca cookie "secure", que quebra o login em http puro
+          // (ex.: docker compose em localhost). Deixe COOKIE_SECURE=true quando houver HTTPS direto.
+          secure: env.bool('COOKIE_SECURE', false),
+        },
       },
     },
   },

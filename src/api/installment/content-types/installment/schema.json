@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "installments",
+  "info": {
+    "singularName": "installment",
+    "pluralName": "installments",
+    "displayName": "Installment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "number": {
+      "type": "integer",
+      "required": true
+    },
+    "dueDate": {
+      "type": "date",
+      "required": true
+    },
+    "amortization": {
+      "type": "decimal"
+    },
+    "interest": {
+      "type": "decimal"
+    },
+    "paymentAmount": {
+      "type": "decimal"
+    },
+    "remainingBalance": {
+      "type": "decimal"
+    },
+    "loan": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::loan.loan"
+    }
+  }
+}
